@@ -1,0 +1,11 @@
+{
+  "name": "FuelDesk Professional",
+  "short_name": "FuelDesk",
+  "description": "Offline-first gas station management for Sierra Leone",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fa",
+  "theme_color": "#10243a",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
