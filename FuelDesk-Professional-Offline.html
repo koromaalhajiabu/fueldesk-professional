@@ -3,7 +3,7 @@
 <style>
 :root{--navy:#10243a;--blue:#1769aa;--green:#0c8a78;--bg:#f2f5f9;--line:#dce4ec;--muted:#66778b}*{box-sizing:border-box}body{margin:0;font:14px system-ui,Arial;background:var(--bg);color:#192738}header{background:var(--navy);color:white;padding:17px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}header h1{margin:0;font-size:21px}header small{color:#cad8e6}nav{display:flex;gap:5px;padding:10px;background:white;overflow:auto;border-bottom:1px solid var(--line)}button{border:0;border-radius:8px;padding:10px 13px;font-weight:700;cursor:pointer;background:var(--blue);color:white}nav button{background:transparent;color:#41536a;white-space:nowrap}nav button.active{background:#e6f1fb;color:var(--blue)}button.alt{background:#e9eff5;color:#243c55}button.danger{background:#fff0f0;color:#b52f2f}main{max-width:1150px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.heading{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.heading h2{margin:4px 0}.muted,.hint{color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:white;border:1px solid var(--line);border-radius:13px;padding:15px;margin-bottom:12px;min-width:0}.metric{font-size:23px;font-weight:800;margin-top:8px}.label{font-size:12px;color:var(--muted);font-weight:700}.section{font-size:15px;margin:0 0 13px}form{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field label{display:block;font-size:12px;font-weight:700;color:#506177;margin-bottom:5px}input,select{width:100%;padding:10px;border:1px solid #ccd7e2;border-radius:8px;font:inherit;background:#fff}.full,.form-actions{grid-column:1/-1}.form-actions{display:flex;justify-content:flex-end;gap:8px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;border-bottom:1px solid #edf1f5;padding:10px 8px;white-space:nowrap}th{color:var(--muted);font-size:10px;text-transform:uppercase}td.num,th.num{text-align:right}.pill{background:#e5f7ef;color:#08765e;border-radius:20px;padding:4px 7px;font-size:11px;font-weight:700}.pill.low{background:#fff0d4;color:#946008}.bar{height:8px;background:#e8edf2;border-radius:10px;overflow:hidden}.bar span{display:block;height:100%;background:var(--green)}.empty{text-align:center;color:var(--muted);padding:20px}.note{padding:11px;background:#edf6ff;color:#315c80;border-radius:8px;font-size:12px;margin:10px 0}.actions{display:flex;gap:8px;flex-wrap:wrap}.toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#10243a;color:white;padding:12px 16px;border-radius:10px;z-index:10}.login{position:fixed;inset:0;background:#10243aee;display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}.login .card{width:min(420px,100%)}.footer{text-align:center;color:var(--muted);padding:20px;font-size:11px}@media(max-width:750px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}}@media(max-width:450px){main{padding:10px}.card{padding:12px}.grid{gap:8px}form{grid-template-columns:1fr}.full,.form-actions{grid-column:1}.metric{font-size:20px}}
 </style></head><body>
-<header><div><h1 id="brand">⛽ FuelDesk Professional</h1><small>Offline station management · Sierra Leone leone (SLE)</small></div><span class="pill">● Offline mode</span></header>
+<header><div><h1 id="brand">⛽ FuelDesk Professional</h1><small>Offline station management · Sierra Leone leone (SLE) · DEMO DATA ONLY</small></div><span class="pill">● Offline mode</span></header>
 <nav id="nav"><button data-page="dashboard" class="active">Dashboard</button><button data-page="sales">Sales / Receipts</button><button data-page="stock">Fuel stock</button><button data-page="pumps">Pumps / attendants</button><button data-page="credit">Credit customers</button><button data-page="purchases">Suppliers / purchases</button><button data-page="expenses">Expenses</button><button data-page="shifts">Shift closing</button><button data-page="reports">Reports / P&L</button><button data-page="settings">Settings / backup</button></nav>
 <main>
 <section id="dashboard" class="page active"><div class="heading"><div><h2>Station dashboard</h2><div class="muted" id="today"></div></div><div class="actions"><button data-go="sales">＋ Record sale</button><button class="alt" data-go="stock">Manage stock</button></div></div>
@@ -22,7 +22,58 @@
 <div id="loginGate" class="login"><div class="card"><h2>Staff login</h2><p class="hint">Demo access only: Owner PIN 1234 · Cashier PIN 1111. Before entering real station data, sign in as Owner and replace both demo PINs in Settings. This local PIN login is not enterprise-grade security.</p><form id="loginForm"><div class="field full"><label>Account</label><select id="loginUser"></select></div><div class="field full"><label>PIN</label><input id="loginPin" type="password" inputmode="numeric" required></div><div class="form-actions"><button type="submit">Sign in</button></div></form></div></div>
 <script>
 const KEY='fueldesk_sle_v2',today=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)},localDT=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)},uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const seed=()=>({settings:{name:'FuelDesk Station',currency:'SLE',manager:''},fuels:[{id:'petrol',name:'Petrol',price:30,capacity:10000,stock:5000,low:500},{id:'diesel',name:'Diesel',price:32,capacity:8000,stock:3200,low:400}],sales:[],deliveries:[],expenses:[],pumps:[],customers:[],payments:[],suppliers:[],purchases:[],shifts:[],users:[{id:'owner',name:'Owner',role:'Owner',pin:'1234'},{id:'cashier',name:'Cashier',role:'Cashier',pin:'1111'}],current:null});
+const seed=()=>({
+ settings:{name:'DEMO — Freetown Fuel Station',currency:'SLE',manager:'DEMO Station Manager'},
+ fuels:[
+  {id:'petrol',name:'Petrol',price:30,capacity:10000,stock:5850,low:500},
+  {id:'diesel',name:'Diesel',price:32,capacity:8000,stock:3650,low:400}
+ ],
+ sales:[
+  {id:'DEMO-FUEL-SALE-001',fuel:'petrol',qty:10,price:30,total:300,date:'2026-11-22T07:45',method:'Cash',attendant:'DEMO Cashier',pump:'pump-1',customer:'',note:'DEMO receipt 001 — fictional sale'},
+  {id:'DEMO-FUEL-SALE-002',fuel:'diesel',qty:15,price:32,total:480,date:'2026-11-22T08:30',method:'Mobile Money',attendant:'DEMO Attendant B',pump:'pump-2',customer:'',note:'DEMO receipt 002 — fictional sale'},
+  {id:'DEMO-FUEL-SALE-003',fuel:'petrol',qty:20,price:30,total:600,date:'2026-11-22T09:05',method:'Credit',attendant:'DEMO Cashier',pump:'pump-1',customer:'demo-customer-1',note:'DEMO receipt 003 — fictional credit sale'},
+  {id:'DEMO-FUEL-SALE-004',fuel:'petrol',qty:50,price:30,total:1500,date:'2026-11-21T11:20',method:'Cash',attendant:'DEMO Cashier',pump:'pump-1',customer:'',note:'DEMO receipt 004 — fictional sale'},
+  {id:'DEMO-FUEL-SALE-005',fuel:'diesel',qty:35,price:32,total:1120,date:'2026-11-21T14:10',method:'Card',attendant:'DEMO Attendant B',pump:'pump-2',customer:'',note:'DEMO receipt 005 — fictional sale'},
+  {id:'DEMO-FUEL-SALE-006',fuel:'petrol',qty:70,price:30,total:2100,date:'2026-11-20T15:00',method:'Mobile Money',attendant:'DEMO Cashier',pump:'pump-1',customer:'',note:'DEMO receipt 006 — fictional sale'}
+ ],
+ deliveries:[
+  {id:'DEMO-FUEL-DEL-001',fuel:'petrol',qty:1000,cost:27,date:'2026-11-10',supplier:'demo-supplier-1',note:'DEMO delivery — fictional invoice DEMO-INV-001'},
+  {id:'DEMO-FUEL-DEL-002',fuel:'diesel',qty:500,cost:28,date:'2026-11-12',supplier:'demo-supplier-2',note:'DEMO delivery — fictional invoice DEMO-INV-002'}
+ ],
+ expenses:[
+  {id:'DEMO-FUEL-EXP-001',date:'2026-11-22',amount:50,category:'Transport',method:'Cash',note:'DEMO — sample local delivery expense'},
+  {id:'DEMO-FUEL-EXP-002',date:'2026-11-21',amount:150,category:'Utilities',method:'Cash',note:'DEMO — sample electricity expense'},
+  {id:'DEMO-FUEL-EXP-003',date:'2026-11-20',amount:300,category:'Wages',method:'Bank',note:'DEMO — sample staff wages'},
+  {id:'DEMO-FUEL-EXP-004',date:'2026-11-18',amount:120,category:'Security',method:'Cash',note:'DEMO — sample security expense'}
+ ],
+ pumps:[
+  {id:'pump-1',name:'DEMO Pump 1',fuel:'petrol',attendant:'DEMO Cashier',meter:12500},
+  {id:'pump-2',name:'DEMO Pump 2',fuel:'diesel',attendant:'DEMO Attendant B',meter:9800}
+ ],
+ customers:[
+  {id:'demo-customer-1',name:'DEMO — Peninsula Construction',phone:'DEMO ONLY — no real phone',limit:5000},
+  {id:'demo-customer-2',name:'DEMO — Freetown Retail Customer',phone:'DEMO ONLY — no real phone',limit:2500}
+ ],
+ payments:[
+  {id:'DEMO-FUEL-PAY-001',customer:'demo-customer-1',amount:100,date:'2026-11-22',method:'Cash'}
+ ],
+ suppliers:[
+  {id:'demo-supplier-1',name:'DEMO — Western Fuel Depot',phone:'DEMO ONLY — no real phone',note:'Fictional supplier for product demonstration'},
+  {id:'demo-supplier-2',name:'DEMO — Peninsula Petroleum Supply',phone:'DEMO ONLY — no real phone',note:'Fictional supplier for product demonstration'}
+ ],
+ purchases:[
+  {id:'DEMO-FUEL-PUR-001',supplier:'demo-supplier-1',fuel:'petrol',qty:1000,cost:27,date:'2026-11-10',ref:'DEMO-INV-001'},
+  {id:'DEMO-FUEL-PUR-002',supplier:'demo-supplier-2',fuel:'diesel',qty:500,cost:28,date:'2026-11-12',ref:'DEMO-INV-002'}
+ ],
+ shifts:[
+  {id:'DEMO-FUEL-SHIFT-001',date:'2026-11-22',shift:'Morning',staff:'DEMO Cashier',float:200,counted:550,expected:550,variance:0,note:'DEMO ONLY — fictional shift reconciliation'}
+ ],
+ users:[
+  {id:'owner',name:'Owner',role:'Owner',pin:'1234'},
+  {id:'cashier',name:'Cashier',role:'Cashier',pin:'1111'}
+ ],
+ current:null
+});
 let db;try{db=JSON.parse(localStorage.getItem(KEY))||seed()}catch(e){db=seed()}
 ['fuels','sales','deliveries','expenses','pumps','customers','payments','suppliers','purchases','shifts','users'].forEach(k=>{if(!Array.isArray(db[k]))db[k]=[]});if(!db.settings)db.settings=seed().settings;if(!db.users.length)db.users=seed().users;
 const $=id=>document.getElementById(id),fuel=id=>db.fuels.find(f=>f.id===id),fmt=n=>`${db.settings.currency||'SLE'} ${Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`,nfmt=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2}),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),day=s=>String(s||'').slice(0,10),dt=s=>s?new Date(s).toLocaleString():'',rowEmpty=(n)=>`<tr><td class="empty" colspan="${n}">No records yet</td></tr>`;
